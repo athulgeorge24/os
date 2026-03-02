@@ -195,68 +195,63 @@ void printTable(struct process p[], int n, char* algoName, float avgWt) {
     printf("-------------------------------\n");
 }
 
+void copy(struct process a[], struct process b[], int n) {
+    for(int i=0;i<n;i++)
+        b[i] = a[i];
+}
+
 int main() {
     int n, qtm;
+
     printf("Enter number of processes: ");
     scanf("%d", &n);
 
-    struct process p[n], temp[n];
+    struct process p[n],temp[n];
 
-    for(int i = 0; i < n; i++) {
-        p[i].pid = i + 1;
-        printf("Process %d - Enter AT, BT, Priority: ", i + 1);
-        scanf("%d %d %d", &p[i].at, &p[i].bt, &p[i].pt);
+    for(int i=0;i<n;i++)
+    {
+        p[i].pid = i+1;
+        printf("Process %d (AT BT Priority): ",i+1);
+        scanf("%d%d%d",&p[i].at,&p[i].bt,&p[i].pt);
     }
 
-    printf("Enter Time Quantum for Round Robin: ");
-    scanf("%d", &qtm);
+    printf("Enter Time Quantum: ");
+    scanf("%d",&qtm);
 
-    // Run FCFS
-    for(int i=0; i<n; i++) temp[i] = p[i];
-    float avg_fcfs = fcfs(temp, n);
-    printTable(temp, n, "FCFS", avg_fcfs);
+    float avg[4];
+    char *names[] = {
+        "FCFS",
+        "SJF (Non-Preemptive)",
+        "Priority (Non-Preemptive)",
+        "Round Robin"
+    };
 
-    // Run SJF
-    for(int i=0; i<n; i++) temp[i] = p[i];
-    float avg_sjf = sjf(temp, n);
-    printTable(temp, n, "SJF (Non-Preemptive)", avg_sjf);
+    copy(p,temp,n);
+    avg[0] = fcfs(temp,n);
+    printTable(temp,n,names[0],avg[0]);
 
-    // Run Priority
-    for(int i=0; i<n; i++) temp[i] = p[i];
-    float avg_pt = pt_np(temp, n);
-    printTable(temp, n, "Priority (Non-Preemptive)", avg_pt);
+    copy(p,temp,n);
+    avg[1] = sjf(temp,n);
+    printTable(temp,n,names[1],avg[1]);
 
-    // Run Round Robin
-    for(int i=0; i<n; i++) temp[i] = p[i];
-    float avg_rr = rr(temp, n, qtm);
-    printTable(temp, n, "Round Robin", avg_rr);
-    
+    copy(p,temp,n);
+    avg[2] = pt_np(temp,n);
+    printTable(temp,n,names[2],avg[2]);
 
-float min = avg_fcfs;
-char *best = "FCFS";
+    copy(p,temp,n);
+    avg[3] = rr(temp,n,qtm);
+    printTable(temp,n,names[3],avg[3]);
 
-if(avg_sjf < min)
-{
-    min = avg_sjf;
-    best = "SJF (Non-Preemptive)";
-}
+    // Find Best Algorithm
+    int best = 0;
+    for(int i=1;i<4;i++)
+        if(avg[i] < avg[best])
+            best = i;
 
-if(avg_pt < min)
-{
-    min = avg_pt;
-    best = "Priority (Non-Preemptive)";
-}
-
-if(avg_rr < min)
-{
-    min = avg_rr;
-    best = "Round Robin";
-}
-
-printf("\n=====================================\n");
-printf("Best Scheduling Algorithm: %s\n", best);
-printf("Minimum Average Waiting Time: %.2f\n", min);
-printf("=====================================\n");
+    printf("\n=====================================\n");
+    printf("Best Scheduling Algorithm: %s\n", names[best]);
+    printf("Minimum Average Waiting Time: %.2f\n", avg[best]);
+    printf("=====================================\n");
 
     return 0;
 }
