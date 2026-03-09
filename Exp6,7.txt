@@ -1,300 +1,275 @@
-Got you Bro. Straight, structured, record-ready format. 📌
-(Write this cleanly in your OS record.)
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define SIZE 3  // Buffer can hold 3 items
+
+int buffer[SIZE];
+int count = 0; // Current number of items in buffer
+int in = 0;    // Index for producer
+int out = 0;   // Index for consumer
+
+void producer(int item) {
+    buffer[in] = item;
+    in = (in + 1) % SIZE;
+    count++;
+    printf("Produced %d \n", item);
+}
+
+void consumer() {
+    int item = buffer[out];
+    out = (out + 1) % SIZE;
+    count--;
+    printf("Consumed %d \n", item);
+}
+
+int main() {
+    srand(time(NULL));
+    int total_actions = 15; 
+
+    for(int i = 0; i < total_actions; i++) {
+        int num = rand() % 10;
+        int choice = rand() % 2;
+
+        if (choice == 0) { 
+            if (count < SIZE) {
+                producer(num);
+            } else {
+                // Buffer full, must consume
+                consumer();
+            }
+        } 
+        else {
+            if (count > 0) {
+                consumer();
+            } else {
+                // Buffer empty, must produce
+                producer(num);
+            }
+        }
+    }
+    return 0;
+}
+
+/*#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int buffer;
+int empty = 1;
+int full = 0;
+
+void producer(int item) {
+    buffer = item;
+    empty = 0;
+    full = 1;
+    printf("Produced %d\n", item);
+}
+
+void consumer() {
+
+    int item = buffer;
+    empty = 1;
+    full = 0;
+    printf("Consumed %d\n", item);
+}
+
+int main() {
+    srand(time(NULL));
+    int a = rand() % 5 + 5;
+
+    for(int i = 0; i < a; i++) {
+        int num = rand() % 10;
+        int choice = rand() % 2;
+
+        if (choice == 0) { 
+            if (empty == 1) {
+                producer(num);
+            } else {
+
+                consumer();
+            }
+        } 
+        else {
+            if (full == 1) {
+                consumer();
+            } else {
+
+                producer(num);
+            }
+        }
+    }
+    return 0;
+}
 
 
----
-
-OS LAB
-
-Experiment 1: Producer – Consumer Problem
-
-Aim
-
-To implement and study the Producer–Consumer problem using synchronization techniques.
+ OR
 
 
----
+*/
 
-Theory
+/*#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int buffer;
+int empty=1;
+int full=0;
 
-The Producer–Consumer problem is a classic synchronization problem.
+void producer(int item){
 
-Producer → Produces data and puts it into a buffer.
-
-Consumer → Consumes data from the buffer.
-
-The buffer is shared between them.
-
-Problem: Avoid
-
-Buffer overflow (producer adds when full)
-
-Buffer underflow (consumer removes when empty)
-
-Race condition
-
-
-
-This is solved using:
-
-Semaphore
-
-Mutex
-
-Critical Section
-
-
-
----
-
-Algorithm (Using Semaphore)
-
-Initialize
-
-1. mutex = 1   (for mutual exclusion)
-
-
-2. empty = n   (number of empty slots in buffer)
-
-
-3. full = 0    (number of filled slots)
-
-
-
-
----
-
-Producer Algorithm
-
-while (true) do
-    produce_item()
+    while(full==1);
     
-    wait(empty)
-    wait(mutex)
+	buffer= item;
+	empty=0;
+	full=1;
+	printf("Produced %d\n",item);
     
-    add item to buffer
+}
+
+void consumer(){
+
+while(empty==0);
+   
+	int item= buffer;
+	empty=1;
+	full=0;
+	printf("Consumed %d\n",item);
+   
+}
+int main() {
+    srand(time(NULL));
+    int a=rand()%10+5;
+
+    for(int i=0;i<a;i++) 
+	{
+        int num=rand()%10;
+        int choice=rand()%2;
+
+        if (choice==0) 
+	{
+            if (empty==1) 
+	    {
+                producer(num);
+            } 
+       	    else 
+	    {
+                printf("Skipped Production: Buffer is Full!\n");
+            }
+        } 
+        else 
+        {
+            if (full==1)
+	    {
+                consumer();
+            }
+	    else
+	    {
+                printf("Skipped Consumption: Buffer is Empty!\n");
+            }
+        }
+    }
+return 0;
+}
+
+*/
+
+
+
+
+
+
+
+/*
+for(i=0;i<=n;i++)
+{
+	
+
+if(i==n)
+{
+printf("item full on producer side");
+
+int consumer(int n){
+*/
+
+
+/*
+#include <stdio.h>
+
+int buffer;
+int empty=1;
+int full=0;
+
+void producer(int item){
+
+if(empty==1)
+    {
+	buffer= item;
+	empty=0;
+	full=1;
+	printf("Produced %d\n",item);
+    }
+}
+
+void consumer(){
+
+if(full==1)
+   {
+	int item= buffer;
+	empty=1;
+	full=0;
+	printf("Consumed %d\n",item);
+   }
+}
+int main()
+{
+for(int i=1;i<=5;i++)
+{
+	producer(i);
+	consumer();
+}
+return 0;
+}
+
+*/
+
+
+/*
+#include <stdio.h>
+
+int buffer;
+int empty=1;
+int full=0;
+
+void producer(int item){
+
+while(empty==0);
     
-    signal(mutex)
-    signal(full)
-end while
-
-
----
-
-Consumer Algorithm
-
-while (true) do
+	buffer= item;
+	empty=0;
+	full=1;
+	printf("Produced %d\n",item);
     
-    wait(full)
-    wait(mutex)
-    
-    remove item from buffer
-    
-    signal(mutex)
-    signal(empty)
-    
-    consume_item()
-end while
+}
+
+void consumer(){
+
+while(full==0);
+   
+	int item= buffer;
+	empty=1;
+	full=0;
+	printf("Consumed %d\n",item);
+   
+}
+int main()
+{
+for(int i=1;i<=5;i++)
+{
+	producer(i);
+	consumer();
+}
+return 0;
+}
+
+*/
 
-
----
-
-Explanation (Step-by-step Logic)
-
-Producer checks if buffer is empty space available.
-
-Consumer checks if buffer has items.
-
-mutex ensures only one process accesses buffer at a time.
-
-empty prevents overflow.
-
-full prevents underflow.
-
-
-
----
-
-Result
-
-The Producer–Consumer problem was successfully studied and implemented using semaphores to achieve synchronization.
-
-
----
-
-
----
-
-Experiment 2: Banker’s Algorithm
-
-Aim
-
-To implement Banker’s Algorithm and study deadlock avoidance technique.
-
-
----
-
-Theory
-
-Banker’s Algorithm is a deadlock avoidance algorithm.
-
-It checks whether granting a resource request will keep the system in a safe state.
-
-It uses:
-
-Available
-
-Max
-
-Allocation
-
-Need
-
-
-Formula:
-
-Need = Max – Allocation
-
-
----
-
-Algorithm Steps
-
-Step 1: Initialize
-
-1. Read number of processes (n)
-
-
-2. Read number of resource types (m)
-
-
-3. Input:
-
-Allocation matrix
-
-Max matrix
-
-Available array
-
-
-
-4. Compute Need matrix:
-
-Need[i][j] = Max[i][j] - Allocation[i][j]
-
-
-
-
----
-
-Step 2: Safety Algorithm
-
-1. Initialize:
-
-Work = Available
-Finish[i] = false for all i
-
-
-2. Find a process Pi such that:
-
-Finish[i] == false
-AND
-Need[i] <= Work
-
-
-3. If found:
-
-Work = Work + Allocation[i]
-Finish[i] = true
-Add Pi to safe sequence
-Go to Step 2
-
-
-4. If no such process exists:
-
-If all Finish[i] = true → System is SAFE
-
-Else → System is UNSAFE (Deadlock possible)
-
-
-
-
-
----
-
-Resource Request Algorithm
-
-If a process Pi requests resources:
-
-1. Check:
-
-Request[i] <= Need[i]
-
-
-2. Check:
-
-Request[i] <= Available
-
-
-3. Temporarily allocate resources.
-
-
-4. Run Safety Algorithm.
-
-
-5. If safe → Grant request.
-
-
-6. Else → Rollback allocation.
-
-
-
-
----
-
-Example Structure (For Record Writing)
-
-Include tables:
-
-Allocation Matrix
-
-| Process | R1 | R2 | R3 |
-
-Max Matrix
-
-| Process | R1 | R2 | R3 |
-
-Need Matrix
-
-| Process | R1 | R2 | R3 |
-
-Available
-
-| R1 | R2 | R3 |
-
-Then show Safe Sequence:
-
-Safe Sequence = P1 → P3 → P4 → P0 → P2
-
-
----
-
-Result
-
-The Banker’s Algorithm was successfully implemented and safe sequence was determined to avoid deadlock.
-
-
----
-
-If you want, I can also give:
-
-Viva questions & answers
-
-Simple example with numbers
-
-C program for both
-
-Short 10-line algorithm version (exam ready)
-
-
-Tell me what you need next 📌
