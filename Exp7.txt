@@ -1,0 +1,300 @@
+Got you Bro. Straight, structured, record-ready format. 📌
+(Write this cleanly in your OS record.)
+
+
+---
+
+OS LAB
+
+Experiment 1: Producer – Consumer Problem
+
+Aim
+
+To implement and study the Producer–Consumer problem using synchronization techniques.
+
+
+---
+
+Theory
+
+The Producer–Consumer problem is a classic synchronization problem.
+
+Producer → Produces data and puts it into a buffer.
+
+Consumer → Consumes data from the buffer.
+
+The buffer is shared between them.
+
+Problem: Avoid
+
+Buffer overflow (producer adds when full)
+
+Buffer underflow (consumer removes when empty)
+
+Race condition
+
+
+
+This is solved using:
+
+Semaphore
+
+Mutex
+
+Critical Section
+
+
+
+---
+
+Algorithm (Using Semaphore)
+
+Initialize
+
+1. mutex = 1   (for mutual exclusion)
+
+
+2. empty = n   (number of empty slots in buffer)
+
+
+3. full = 0    (number of filled slots)
+
+
+
+
+---
+
+Producer Algorithm
+
+while (true) do
+    produce_item()
+    
+    wait(empty)
+    wait(mutex)
+    
+    add item to buffer
+    
+    signal(mutex)
+    signal(full)
+end while
+
+
+---
+
+Consumer Algorithm
+
+while (true) do
+    
+    wait(full)
+    wait(mutex)
+    
+    remove item from buffer
+    
+    signal(mutex)
+    signal(empty)
+    
+    consume_item()
+end while
+
+
+---
+
+Explanation (Step-by-step Logic)
+
+Producer checks if buffer is empty space available.
+
+Consumer checks if buffer has items.
+
+mutex ensures only one process accesses buffer at a time.
+
+empty prevents overflow.
+
+full prevents underflow.
+
+
+
+---
+
+Result
+
+The Producer–Consumer problem was successfully studied and implemented using semaphores to achieve synchronization.
+
+
+---
+
+
+---
+
+Experiment 2: Banker’s Algorithm
+
+Aim
+
+To implement Banker’s Algorithm and study deadlock avoidance technique.
+
+
+---
+
+Theory
+
+Banker’s Algorithm is a deadlock avoidance algorithm.
+
+It checks whether granting a resource request will keep the system in a safe state.
+
+It uses:
+
+Available
+
+Max
+
+Allocation
+
+Need
+
+
+Formula:
+
+Need = Max – Allocation
+
+
+---
+
+Algorithm Steps
+
+Step 1: Initialize
+
+1. Read number of processes (n)
+
+
+2. Read number of resource types (m)
+
+
+3. Input:
+
+Allocation matrix
+
+Max matrix
+
+Available array
+
+
+
+4. Compute Need matrix:
+
+Need[i][j] = Max[i][j] - Allocation[i][j]
+
+
+
+
+---
+
+Step 2: Safety Algorithm
+
+1. Initialize:
+
+Work = Available
+Finish[i] = false for all i
+
+
+2. Find a process Pi such that:
+
+Finish[i] == false
+AND
+Need[i] <= Work
+
+
+3. If found:
+
+Work = Work + Allocation[i]
+Finish[i] = true
+Add Pi to safe sequence
+Go to Step 2
+
+
+4. If no such process exists:
+
+If all Finish[i] = true → System is SAFE
+
+Else → System is UNSAFE (Deadlock possible)
+
+
+
+
+
+---
+
+Resource Request Algorithm
+
+If a process Pi requests resources:
+
+1. Check:
+
+Request[i] <= Need[i]
+
+
+2. Check:
+
+Request[i] <= Available
+
+
+3. Temporarily allocate resources.
+
+
+4. Run Safety Algorithm.
+
+
+5. If safe → Grant request.
+
+
+6. Else → Rollback allocation.
+
+
+
+
+---
+
+Example Structure (For Record Writing)
+
+Include tables:
+
+Allocation Matrix
+
+| Process | R1 | R2 | R3 |
+
+Max Matrix
+
+| Process | R1 | R2 | R3 |
+
+Need Matrix
+
+| Process | R1 | R2 | R3 |
+
+Available
+
+| R1 | R2 | R3 |
+
+Then show Safe Sequence:
+
+Safe Sequence = P1 → P3 → P4 → P0 → P2
+
+
+---
+
+Result
+
+The Banker’s Algorithm was successfully implemented and safe sequence was determined to avoid deadlock.
+
+
+---
+
+If you want, I can also give:
+
+Viva questions & answers
+
+Simple example with numbers
+
+C program for both
+
+Short 10-line algorithm version (exam ready)
+
+
+Tell me what you need next 📌
