@@ -7,7 +7,7 @@ void sstf()
 {
     int visit[100]={0};
     int total=0,pos=head,min,dist,count=0;
-    printf(" -> %d",pos);  // Show starting head
+     // Show starting head
 
     while(count<n)
     {
@@ -36,7 +36,7 @@ void sstf()
 void look()
 {
     int total=0,pos=head,index;
-    printf(" -> %d",pos);  // Show starting head
+    printf("%d",pos);  // Show starting head
 
     for(i=1;i<=n;i++)
     {
@@ -64,7 +64,7 @@ void look()
 void cscan()
 {
     int total=0,pos=head,index,disk_size=200;
-    printf(" -> %d",pos);  // Show starting head
+    printf("%d",pos);  // Show starting head
 
     for(i=1;i<=n;i++)
     {
