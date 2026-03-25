@@ -214,3 +214,39 @@ int main() {
         }
     }
 }
+
+
+
+
+
+
+Step 1:
+Start the program.
+Step 2:
+Read number of pages n and reference string.
+Step 3:
+Read number of frames.
+Step 4:
+Display menu and read user choice.
+Step 5:
+If FIFO is selected:
+Initialize frames as empty
+For each page:
+If page is present → Hit
+Else replace using FIFO order → Fault
+Count faults and hits
+Step 6:
+If LRU is selected:
+Track recent usage of pages
+If page is present → Hit
+Else replace least recently used page → Fault
+Count faults and hits
+Step 7:
+If Optimal is selected:
+If page is present → Hit
+Else replace page that is used farthest in future → Fault
+Count faults and hits
+Step 8:
+Display total page faults and hits.
+Step 9:
+Stop the program.
